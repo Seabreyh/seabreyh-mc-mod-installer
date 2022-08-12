@@ -123,11 +123,13 @@ pub async fn install_jvm_runtime(jvm_version: MinecraftJavaRuntime, minecraft_di
             "file" => {
                 if let Some(download) = &value.downloads {
                     if let Some(lzma) = download.lzma.clone() {
-                        if let Err(error) = download_file(lzma.url, cur.clone(), callback, Some(lzma.sha1), true).await {
+                        // if let Err(error) = download_file(lzma.url, cur.clone(), callback, Some(lzma.sha1), true).await {
+                        if let Err(error) = download_file(lzma.url, cur.clone(), callback, None, true).await {
                              return Err(error);
                         }
                     } else {
-                        if let Err(error) = download_file(download.raw.url.clone(), cur.clone(), callback, Some(download.raw.sha1.clone()), false).await {
+                        // if let Err(error) = download_file(download.raw.url.clone(), cur.clone(), callback, Some(download.raw.sha1.clone()), false).await {
+                        if let Err(error) = download_file(download.raw.url.clone(), cur.clone(), callback, None, false).await {
                             return Err(error);
                         }
                     }

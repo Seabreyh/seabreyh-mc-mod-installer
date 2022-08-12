@@ -1,7 +1,8 @@
 use crate::expections::{ LauncherLibError, LibResult };
-use crate::utils::download_file;
+use crate::json::install::VersionManifest;
+use crate::utils::{download_file, read_manifest_inherit};
 use crate::mod_utiles::get_metadata;
-use crate::runtime::get_exectable_path;
+use crate::runtime::{get_exectable_path, does_runtime_exist, install_jvm_runtime};
 use crate::install::install_minecraft_version;
 use crate::json::{
     runtime::MinecraftJavaRuntime,
@@ -156,6 +157,25 @@ pub async fn install_forge(mc: String, mc_dir: PathBuf, temp_path: PathBuf,  cal
         return Err(err);
     }
     callback(Event::progress(2, 2));
+
+    // Manifest 
+    let version_manifest = mc_dir.clone().join("versions").join(mc.clone()).join(format!("{}.json",mc.clone()));
+    let manifest: VersionManifest = match read_manifest_inherit(version_manifest,&mc_dir.clone()).await {
+        Ok(value) => value,
+        Err(err) => return Err(err)
+    };
+    if let Some(java) = manifest.java_version {
+        match does_runtime_exist(java.component.clone(), mc_dir.clone()) {
+            Ok(value) => {
+                if !value {
+                    if let Err(err) = install_jvm_runtime(java.component, mc_dir.clone(), callback).await {
+                        return Err(err);
+                    }
+                }
+            }
+            Err(err) => return Err(err)
+        }
+    }
 
     let exec: String = match java {
         Some(value) => value.to_str().expect("Failed to make string").into(),
