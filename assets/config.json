@@ -1,0 +1,27 @@
+{
+  "active_profile": 0,
+  "active_modpack": 0,
+  "profiles": [
+    {
+      "name": "seabreyh_mods",
+      "output_dir": "C:\\Users\\sebjf\\AppData\\Roaming\\.minecraft\\mods",
+      "game_version": "1.18.2",
+      "mod_loader": "Forge",
+      "mods": [
+        {
+          "name": "Create",
+          "identifier": {
+            "CurseForgeProject": 328085
+          }
+        },
+        {
+          "name": "Flywheel",
+          "identifier": {
+            "CurseForgeProject": 486392
+          }
+        }
+      ]
+    }
+  ],
+  "modpacks": []
+}
