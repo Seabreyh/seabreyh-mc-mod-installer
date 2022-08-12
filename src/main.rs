@@ -7,7 +7,6 @@ use std::{fs::File, io::Cursor};
 
 use iced::window::Icon;
 
-use iced_native::Runtime;
 use image::{EncodableLayout, GenericImageView};
 use mc_laucher_lib_rs::{
     client::ClientBuilder,
@@ -32,7 +31,7 @@ const SERVER_NAME: &str = "Seabreyh MC Server";
 const SERVER_IP: &str = "mc.seabreyh.com";
 
 use iced::{
-    alignment, button, executor, futures, window, Alignment, Application, Button, Column, Command,
+    alignment, button, executor, window, Alignment, Application, Button, Column, Command,
     Container, Element, Length, ProgressBar, Row, Settings, Text,
 };
 
