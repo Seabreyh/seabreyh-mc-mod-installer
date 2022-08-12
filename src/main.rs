@@ -209,7 +209,7 @@ mod style {
 }
 
 async fn install_forge_client(user_path: PathBuf) {
-    if let Err(_) = ClientBuilder::install(
+    if let Err(e) = ClientBuilder::install(
         InstallManifest::new(GAME_VERSION.into(), Loader::Forge),
         None,
         |event| {
@@ -224,7 +224,9 @@ async fn install_forge_client(user_path: PathBuf) {
         None,
     )
     .await
-    {}
+    {
+        panic!("Error during forge installation task: {}", e);
+    }
 }
 
 fn add_server_to_client(roaming_dir: PathBuf) {
