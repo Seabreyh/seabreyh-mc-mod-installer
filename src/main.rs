@@ -1,5 +1,3 @@
-mod ferium;
-
 use std::fs;
 use std::io::{Read, Write};
 use std::path::PathBuf;
@@ -18,17 +16,14 @@ use quartz_nbt::NbtCompound;
 
 use serde::{Deserialize, Serialize};
 
-const MODS_OUTPUT_DIR: &str = ".minecraft\\mods";
 const TMP_MOD_DOWNLOAD_DIR: &str = "Downloads\\";
-const FERIUM_PROFILE_NAME: &str = "seabreyh_mods";
 const GAME_VERSION: &str = "1.18.2";
-const MOD_LOADER: &str = "Forge";
 const MC_SERVER_DAT_PATH: &str = ".minecraft\\servers.dat";
 const MC_LAUNCHER_PROFILE_PATH: &str = ".minecraft\\launcher_profiles.json";
 const LAUNCH_PROFILE_NAME: &str = "Seabreyh Mods";
 
 const SERVER_NAME: &str = "Seabreyh MC Server";
-const SERVER_IP: &str = "mc.seabreyh.com";
+const SERVER_IP: &str = "seabreyh.ml";
 
 use iced::{
     alignment, button, executor, window, Alignment, Application, Button, Column, Command,
@@ -36,11 +31,8 @@ use iced::{
 };
 
 async fn run_install(user_path: PathBuf, roaming_path: PathBuf) {
-    let mods_out_dir = format!("{}\\{}", roaming_path.display(), MODS_OUTPUT_DIR);
-    ferium::create_config(&mods_out_dir, FERIUM_PROFILE_NAME, GAME_VERSION, MOD_LOADER);
-    ferium::install_mods();
     add_server_to_client(roaming_path.clone());
-    install_forge_client(user_path).await;
+    install_forge_client_and_mods(user_path).await;
     set_launcher_profile(roaming_path);
     println!("Install complete!");
 }
@@ -57,6 +49,7 @@ pub async fn main() -> iced::Result {
         window: window::Settings {
             size: (384, 200),
             icon,
+            resizable: false,
             ..Default::default()
         },
         ..Default::default()
@@ -208,7 +201,7 @@ mod style {
     }
 }
 
-async fn install_forge_client(user_path: PathBuf) {
+async fn install_forge_client_and_mods(user_path: PathBuf) {
     if let Err(e) = ClientBuilder::install(
         InstallManifest::new(GAME_VERSION.into(), Loader::Forge),
         None,
