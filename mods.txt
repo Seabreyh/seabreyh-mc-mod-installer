@@ -16,7 +16,6 @@ https://mediafiles.forgecdn.net/files/3840/203/blueprint-1.18.2-5.4.0.jar
 https://mediafiles.forgecdn.net/files/3571/177/coppergolem-1-18-2b.jar
 https://mediafiles.forgecdn.net/files/3930/7/geckolib-forge-1.18-3.0.34.jar
 https://mediafiles.forgecdn.net/files/3842/421/selene-1.18.2-1.17.9.jar
-https://mediafiles.forgecdn.net/files/3853/896/supplementaries-1.18.2-1.4.7.jar
 https://mediafiles.forgecdn.net/files/3866/959/sophisticatedbackpacks-1.18.2-3.17.10.621.jar
 https://mediafiles.forgecdn.net/files/3866/953/sophisticatedcore-1.18.2-0.3.7.59.jar
 https://mediafiles.forgecdn.net/files/3642/382/AutoRegLib-1.7-53.jar
@@ -36,3 +35,4 @@ https://mediafiles.forgecdn.net/files/3861/268/XaerosWorldMap_1.25.1_Forge_1.18.
 https://mediafiles.forgecdn.net/files/3924/971/open-parties-and-claims-forge-1.18.2-0.9.0.jar
 https://mediafiles.forgecdn.net/files/3930/338/DramaticDoors-Fabric-1.18.2-1.3.1.jar
 https://mediafiles.forgecdn.net/files/3870/934/DungeonCrawl-1.18.2-2.3.10.jar
+https://mediafiles.forgecdn.net/files/3871/187/supplementaries-1.18.2-1.4.8.jar
