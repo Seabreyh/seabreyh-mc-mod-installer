@@ -25,11 +25,6 @@ const LAUNCH_PROFILE_NAME: &str = "Seabreyh Mods";
 const SERVER_NAME: &str = "Seabreyh MC Server";
 const SERVER_IP: &str = "seabreyh.ml";
 
-use iced::{
-    alignment, button, executor, window, Alignment, Application, Button, Column, Command,
-    Container, Element, Length, ProgressBar, Row, Settings, Text,
-};
-
 async fn run_install(user_path: PathBuf, roaming_path: PathBuf) {
     add_server_to_client(roaming_path.clone());
     install_forge_client_and_mods(user_path).await;
@@ -43,162 +38,14 @@ pub async fn main() -> iced::Result {
     let image = image::load_from_memory(icon_bytes).expect("Could not load icon");
     let rgba = image.to_rgba8();
     let dimensions = image.dimensions();
-    let icon = Icon::from_rgba(rgba.as_bytes().to_vec(), dimensions.0, dimensions.1).ok();
+    let _icon = Icon::from_rgba(rgba.as_bytes().to_vec(), dimensions.0, dimensions.1).ok();
 
-    InstallerApp::run(Settings {
-        window: window::Settings {
-            size: (384, 200),
-            icon,
-            resizable: false,
-            ..Default::default()
-        },
-        ..Default::default()
-    })
-}
+    let user_dir = dirs::home_dir().unwrap();
+    let roaming_dir = dirs::config_dir().unwrap();
 
-struct InstallerApp {
-    state: State,
-    last_state: State,
-    install_button: button::State,
-    progress_bar: f32,
-    user_dir: PathBuf,
-    roaming_dir: PathBuf,
-}
+    run_install(user_dir, roaming_dir).await;
 
-#[derive(Copy, Clone)]
-enum State {
-    Idle,
-    Installing,
-    Finished,
-}
-
-#[derive(Debug, Clone)]
-enum Message {
-    Install,
-    Finished,
-}
-
-impl Application for InstallerApp {
-    type Executor = executor::Default;
-    type Message = Message;
-    type Flags = ();
-
-    fn new(_flags: ()) -> (InstallerApp, Command<Message>) {
-        (
-            InstallerApp {
-                state: State::Idle,
-                last_state: State::Idle,
-                install_button: button::State::new(),
-                progress_bar: 0.0,
-                user_dir: dirs::home_dir().unwrap(),
-                roaming_dir: dirs::config_dir().unwrap(),
-            },
-            Command::none(),
-        )
-    }
-
-    fn title(&self) -> String {
-        String::from("Seabreyh Minecraft Mods Installer")
-    }
-
-    fn update(&mut self, message: Message) -> Command<Message> {
-        match message {
-            Message::Install => match self.state {
-                State::Idle => {
-                    self.state = State::Installing;
-                }
-                _ => {}
-            },
-            Message::Finished => {
-                self.state = State::Finished;
-                self.progress_bar = 100.0;
-            }
-        }
-
-        let mut command = Command::none();
-        if let State::Installing = self.state {
-            if let State::Idle = self.last_state {
-                self.progress_bar = 50.0;
-                let user_dir = self.user_dir.clone();
-                let roaming_dir = self.roaming_dir.clone();
-                command = Command::perform(run_install(user_dir, roaming_dir), move |_| {
-                    Message::Finished
-                });
-            }
-        }
-
-        self.last_state = self.state;
-
-        command
-    }
-
-    fn view(&mut self) -> Element<Message> {
-        let info_text = Text::new(format!(
-            "Install Minecraft Forge and Seabreyh's server mods",
-        ))
-        .size(20);
-
-        let button = |state, label, style| {
-            Button::new(
-                state,
-                Text::new(label).horizontal_alignment(alignment::Horizontal::Center),
-            )
-            .padding(10)
-            .width(Length::Units(80))
-            .style(style)
-        };
-
-        let install_button = {
-            let (label, color) = match self.state {
-                State::Idle => ("Install", style::Button::Primary),
-                State::Installing => ("Installing...", style::Button::Secondary),
-                State::Finished => ("Finished", style::Button::Secondary),
-            };
-
-            button(&mut self.install_button, label, color)
-                .width(Length::Units(200))
-                .on_press(Message::Install)
-        };
-
-        let controls = Row::new().spacing(20).push(install_button);
-
-        let content = Column::new()
-            .align_items(Alignment::Center)
-            .spacing(20)
-            .push(info_text)
-            .push(controls)
-            .push(ProgressBar::new(0.0..=100.0, self.progress_bar).width(Length::Units(350)));
-
-        Container::new(content)
-            .width(Length::Fill)
-            .height(Length::Fill)
-            .center_x()
-            .center_y()
-            .into()
-    }
-}
-
-mod style {
-    use iced::{button, Background, Color, Vector};
-    pub enum Button {
-        Primary,
-        Secondary,
-    }
-
-    impl button::StyleSheet for Button {
-        fn active(&self) -> button::Style {
-            button::Style {
-                background: Some(Background::Color(match self {
-                    Button::Primary => Color::from_rgb(0.11, 0.42, 0.87),
-                    Button::Secondary => Color::from_rgb(0.5, 0.5, 0.5),
-                })),
-                border_radius: 12.0,
-                shadow_offset: Vector::new(1.0, 1.0),
-                text_color: Color::WHITE,
-                ..button::Style::default()
-            }
-        }
-    }
+    Ok(())
 }
 
 async fn install_forge_client_and_mods(user_path: PathBuf) {
@@ -275,8 +122,14 @@ fn add_server_to_client(roaming_dir: PathBuf) {
         name: SERVER_NAME.to_string(),
         accept_textures: None,
     };
-    if let Some(mut tmp) = servers_dat.servers.take() {
-        tmp.push(server_entry);
+    if let Some(mut tmp) = servers_dat.servers {
+        if tmp
+            .iter()
+            .find(|s| s.name == SERVER_NAME.to_string())
+            .is_none()
+        {
+            tmp.push(server_entry);
+        }
         servers_dat.servers = Some(tmp);
     } else {
         servers_dat.servers = Some(vec![server_entry]);

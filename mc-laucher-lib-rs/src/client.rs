@@ -142,18 +142,26 @@ impl ClientBuilder {
                     Some(value) => value,
                     None => return Err(LauncherLibError::General("Missing temp path".into())),
                 };
-                install_forge(
-                    manifest.minecraft.clone(),
-                    mc_dir.clone(),
-                    temp.clone(),
-                    callback,
-                    cache_path.clone(),
-                    manifest.modloader_version,
-                    java,
-                    manifest.cache_cli,
-                    manifest.cache_install,
-                )
-                .await?;
+                if !mc_dir
+                    .clone()
+                    .join("versions")
+                    .join(manifest.minecraft.clone())
+                    .join(format!("{}.json", manifest.minecraft.clone()))
+                    .is_file()
+                {
+                    install_forge(
+                        manifest.minecraft.clone(),
+                        mc_dir.clone(),
+                        temp.clone(),
+                        callback,
+                        cache_path.clone(),
+                        manifest.modloader_version,
+                        java,
+                        manifest.cache_cli,
+                        manifest.cache_install,
+                    )
+                    .await?;
+                }
                 install_mods(mc_dir, callback).await
             }
             Loader::Optifine => {

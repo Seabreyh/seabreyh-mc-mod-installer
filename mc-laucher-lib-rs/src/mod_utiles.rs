@@ -4,45 +4,66 @@ use serde::Deserialize;
 
 use crate::json::install::{Callback, Event};
 use crate::utils::download_file;
-use std::fs::File;
-use std::io::{self, BufRead};
-use std::path::Path;
 use std::path::PathBuf;
-
-fn read_mods_file<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
 
 pub async fn install_mods(mc_dir: PathBuf, callback: Callback) -> LibResult<()> {
     let mods_dir = mc_dir.join("mods");
 
     let mods_backup = mc_dir.join("mods.backup");
-    dircpy::copy_dir(mods_dir.clone(), mods_backup).unwrap();
 
-    if let Ok(lines) = read_mods_file(".\\mods.txt") {
-        // Consumes the iterator, returns an (Optional) String
-        for line in lines {
-            if let Ok(mod_url) = line {
-                let url_tree: Vec<&str> = mod_url.split("/").collect();
-                let jar = *url_tree.last().unwrap();
-                let mod_file = mods_dir.join(jar);
-                if let Err(err) =
-                    download_file(mod_url.clone(), mod_file.clone(), callback, None, false).await
-                {
-                    return Err(err);
-                }
-
-                callback(Event::Status(format!(
-                    "Installed mod {}",
-                    mod_file.display()
-                )));
-            }
-        }
+    if let Err(_) = dircpy::copy_dir(mods_dir.clone(), mods_backup) {
+        std::fs::create_dir(&mods_dir).expect("Failed to create .minecraft/mods folder");
     }
+
+    let mods_list = include_str!("../../mods.txt");
+
+    // Install mods from mods.txt
+    for mod_url in mods_list.lines() {
+        let url_tree: Vec<&str> = mod_url.split(&['/', '='][..]).collect();
+        let jar = *url_tree.last().unwrap();
+        let mod_file = mods_dir.join(jar);
+        if let Err(err) =
+            download_file(mod_url.to_string(), mod_file.clone(), callback, None, false).await
+        {
+            return Err(err);
+        }
+
+        callback(Event::Status(format!(
+            "Installed mod {}",
+            mod_file.display()
+        )));
+    }
+
+    // Install shaderpack
+    let shaderpacks_dir = mc_dir.join("shaderpacks");
+
+    let shaderpacks_backup = mc_dir.join("shaderpacks.backup");
+
+    if let Err(_) = dircpy::copy_dir(&shaderpacks_dir, shaderpacks_backup) {
+        std::fs::create_dir(&shaderpacks_dir)
+            .expect("Failed to create .minecraft/shaderpacks folder");
+    }
+    let shader_url =
+        "https://mediafiles.forgecdn.net/files/3928/682/ComplementaryReimagined_r1.2.2.zip";
+    let url_tree: Vec<&str> = shader_url.split(&['/', '='][..]).collect();
+    let shaderpack = *url_tree.last().unwrap();
+    let shaderpack_file = shaderpacks_dir.join(shaderpack);
+    if let Err(err) = download_file(
+        shader_url.to_string(),
+        shaderpack_file.clone(),
+        callback,
+        None,
+        false,
+    )
+    .await
+    {
+        return Err(err);
+    }
+
+    callback(Event::Status(format!(
+        "Installed shader {}",
+        shaderpack_file.display()
+    )));
 
     Ok(())
 }
