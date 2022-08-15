@@ -4,6 +4,8 @@ use serde::Deserialize;
 
 use crate::json::install::{Callback, Event};
 use crate::utils::download_file;
+use std::fs::File;
+use std::io::Write;
 use std::path::PathBuf;
 
 pub async fn install_mods(mc_dir: PathBuf, callback: Callback) -> LibResult<()> {
@@ -64,6 +66,17 @@ pub async fn install_mods(mc_dir: PathBuf, callback: Callback) -> LibResult<()> 
         "Installed shader {}",
         shaderpack_file.display()
     )));
+
+    // Install shader settings
+    let shader_settings_txt = include_str!("../../assets/ComplementaryReimagined_r1.2.2.zip.txt");
+
+    let shaderpack_settings_txt_path =
+        shaderpacks_dir.join("ComplementaryReimagined_r1.2.2.zip.txt");
+    let mut shaderpack_settings_txt_file = File::create(shaderpack_settings_txt_path).unwrap();
+    // writeln!(&mut shaderpack_settings_txt_file, "{}", shader_settings_txt).unwrap();
+    shaderpack_settings_txt_file
+        .write_fmt(format_args!("{}", shader_settings_txt))
+        .expect("Failed to write shaderpack settings .txt");
 
     Ok(())
 }
