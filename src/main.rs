@@ -33,7 +33,7 @@ async fn run_install(user_path: PathBuf, roaming_path: PathBuf) {
 }
 
 #[tokio::main]
-pub async fn main() -> iced::Result {
+pub async fn main() {
     let icon_bytes = include_bytes!("..\\icon.png");
     let image = image::load_from_memory(icon_bytes).expect("Could not load icon");
     let rgba = image.to_rgba8();
@@ -45,7 +45,7 @@ pub async fn main() -> iced::Result {
 
     run_install(user_dir, roaming_dir).await;
 
-    Ok(())
+    loop {}
 }
 
 async fn install_forge_client_and_mods(user_path: PathBuf) {
