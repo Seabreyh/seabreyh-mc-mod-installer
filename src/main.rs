@@ -18,6 +18,7 @@ use serde::{Deserialize, Serialize};
 
 const TMP_MOD_DOWNLOAD_DIR: &str = "Downloads\\";
 const GAME_VERSION: &str = "1.18.2";
+const FORGE_VERSION: &str = "1.18.2-forge-40.1.73";
 const MC_SERVER_DAT_PATH: &str = ".minecraft\\servers.dat";
 const MC_LAUNCHER_PROFILE_PATH: &str = ".minecraft\\launcher_profiles.json";
 const LAUNCH_PROFILE_NAME: &str = "Seabreyh Mods";
@@ -27,7 +28,7 @@ const SERVER_IP: &str = "seabreyh.ml";
 
 async fn run_install(user_path: PathBuf, roaming_path: PathBuf) {
     add_server_to_client(roaming_path.clone());
-    install_forge_client_and_mods(user_path).await;
+    install_forge_client_and_mods(user_path, FORGE_VERSION).await;
     set_launcher_profile(roaming_path);
     println!("Install complete!");
 }
@@ -48,13 +49,14 @@ pub async fn main() {
     loop {}
 }
 
-async fn install_forge_client_and_mods(user_path: PathBuf) {
+async fn install_forge_client_and_mods(user_path: PathBuf, desired_forge_version: &str) {
     if let Err(e) = ClientBuilder::install(
         InstallManifest::new(GAME_VERSION.into(), Loader::Forge),
         None,
         |event| {
             println!("{}", event);
         },
+        Some(desired_forge_version),
         Some(PathBuf::from(format!(
             "{}\\{}",
             user_path.display(),

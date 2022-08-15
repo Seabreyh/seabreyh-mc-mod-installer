@@ -12,6 +12,7 @@ use crate::json::{
 use crate::mod_utiles::install_mods;
 use crate::optifine::install_optifine;
 use crate::utils::get_minecraft_directory;
+use serde::__private::de;
 use std::path::PathBuf;
 use std::process::{Child, Command};
 use uuid::Uuid;
@@ -108,6 +109,7 @@ impl ClientBuilder {
         manifest: InstallManifest,
         minecraft_directory: Option<PathBuf>,
         callback: Callback,
+        desired_forge_version: Option<&str>,
         temp_path: Option<PathBuf>,
         cache_path: Option<PathBuf>,
         java: Option<PathBuf>,
@@ -145,8 +147,8 @@ impl ClientBuilder {
                 if !mc_dir
                     .clone()
                     .join("versions")
-                    .join(manifest.minecraft.clone())
-                    .join(format!("{}.json", manifest.minecraft.clone()))
+                    .join(desired_forge_version.unwrap())
+                    .join(format!("{}.json", desired_forge_version.unwrap()))
                     .is_file()
                 {
                     install_forge(
@@ -202,6 +204,7 @@ impl ClientBuilder {
                     value,
                     minecraft_directory,
                     callback,
+                    None,
                     temp_path,
                     cache_path,
                     java,
@@ -341,6 +344,7 @@ mod tests {
             |event| {
                 println!("{:#?}", event);
             },
+            None,
             Some(PathBuf::from("C:\\Users\\Collin\\Downloads\\")),
             None,
             None,
@@ -359,6 +363,7 @@ mod tests {
             |event| {
                 println!("{:#?}", event);
             },
+            None,
             Some(PathBuf::from("C:\\Users\\Collin\\Downloads\\")),
             None,
             None,
@@ -377,6 +382,7 @@ mod tests {
             |event| {
                 println!("{:#?}", event);
             },
+            None,
             Some(PathBuf::from("C:\\Users\\Collin\\Downloads\\")),
             None,
             None,
@@ -395,6 +401,7 @@ mod tests {
             |event| {
                 println!("{:#?}", event);
             },
+            None,
             None,
             None,
             None,
