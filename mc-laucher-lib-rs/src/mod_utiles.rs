@@ -82,11 +82,6 @@ pub async fn install_mods(mc_dir: PathBuf, callback: Callback) -> LibResult<()> 
 
     // Install mods from mods.txt
     for (jar, download_url) in to_install_mod_jars {
-        callback(Event::Status(format!(
-            "mod_name={:?}",
-            get_mod_name_id(jar)
-        )));
-
         let mod_file = mods_dir.join(jar);
         if let Err(err) = download_file(
             download_url.to_string(),
