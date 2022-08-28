@@ -3,9 +3,6 @@ use std::io::{Read, Write};
 use std::path::PathBuf;
 use std::{fs::File, io::Cursor};
 
-use iced::window::Icon;
-
-use image::{EncodableLayout, GenericImageView};
 use mc_laucher_lib_rs::{
     client::ClientBuilder,
     json::client::{InstallManifest, Loader},
@@ -35,12 +32,6 @@ async fn run_install(user_path: PathBuf, roaming_path: PathBuf) {
 
 #[tokio::main]
 pub async fn main() {
-    let icon_bytes = include_bytes!("..\\icon.png");
-    let image = image::load_from_memory(icon_bytes).expect("Could not load icon");
-    let rgba = image.to_rgba8();
-    let dimensions = image.dimensions();
-    let _icon = Icon::from_rgba(rgba.as_bytes().to_vec(), dimensions.0, dimensions.1).ok();
-
     let user_dir = dirs::home_dir().unwrap();
     let roaming_dir = dirs::config_dir().unwrap();
 

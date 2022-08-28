@@ -28,10 +28,10 @@ jobs:
       - name: Build
         run: |
           rustup target add x86_64-pc-windows-gnu
-          cargo build --target x86_64-pc-windows-gnu
+          cargo build --target=x86_64-pc-windows-gnu
       - name: Rename
         run: |
-          mv ./target/release/seabreyh-mc-mod-installer ./${{ env.RELEASE_NAME }}-${{ needs.setup.outputs.version }}.exe
+          mv ./target/x86_64-pc-windows-gnu/debug/seabreyh-mc-mod-installer.exe ./${{ env.RELEASE_NAME }}-${{ needs.setup.outputs.version }}.exe
       - name: Upload
         uses: softprops/action-gh-release@v1
         with:

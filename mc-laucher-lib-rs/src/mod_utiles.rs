@@ -7,7 +7,7 @@ use crate::utils::download_file;
 use std::collections::{HashMap, HashSet};
 use std::fs::{self, File};
 use std::io::Write;
-use std::path::{self, PathBuf};
+use std::path::PathBuf;
 
 fn get_jar_name(url: &str) -> &str {
     let dir_tree: Vec<&str> = url.split(&['\\', '/'][..]).collect();
