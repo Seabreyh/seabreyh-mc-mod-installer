@@ -36,4 +36,4 @@ https://mediafiles.forgecdn.net/files/3924/971/open-parties-and-claims-forge-1.1
 https://mediafiles.forgecdn.net/files/3930/338/DramaticDoors-Fabric-1.18.2-1.3.1.jar
 https://mediafiles.forgecdn.net/files/3870/934/DungeonCrawl-1.18.2-2.3.10.jar
 https://mediafiles.forgecdn.net/files/3871/187/supplementaries-1.18.2-1.4.8.jar
-https://github.com/Seabreyh/mc-forge-mana-mod/releases/download/v0.0.1/mana-mod-v0.0.1.jar
+https://github.com/Seabreyh/mc-forge-mana-mod/releases/download/v0.0.2/mana-mod-v0.0.2.jar
