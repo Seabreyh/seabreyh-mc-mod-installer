@@ -12,7 +12,6 @@ use crate::json::{
 use crate::mod_utiles::install_mods;
 use crate::optifine::install_optifine;
 use crate::utils::get_minecraft_directory;
-use serde::__private::de;
 use std::path::PathBuf;
 use std::process::{Child, Command};
 use uuid::Uuid;
