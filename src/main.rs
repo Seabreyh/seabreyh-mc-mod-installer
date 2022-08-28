@@ -27,7 +27,7 @@ async fn run_install(user_path: PathBuf, roaming_path: PathBuf) {
     add_server_to_client(roaming_path.clone());
     install_forge_client_and_mods(user_path, FORGE_VERSION).await;
     set_launcher_profile(roaming_path);
-    println!("Install complete!");
+    println!("Install complete! You can close this window...");
 }
 
 #[tokio::main]
