@@ -1,0 +1,41 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+env:
+  RELEASE_NAME: seabreyh-mc-mod-installer
+  PUBLIC_URL: /seabreyh-mc-mod-installer/
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version-tag.outputs.VERSION }}
+    steps:
+      - name: Get tagged version
+        id: version-tag
+        run: echo "::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}"
+
+  build:
+    needs: setup
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build
+        run: |
+          rustup target add x86_64-pc-windows-gnu
+          cargo build --release --target x86_64-pc-windows-gnu
+      - name: Rename
+        run: |
+          mv ./target/release/seabreyh-mc-mod-installer.exe ./${{ env.RELEASE_NAME }}-${{ needs.setup.outputs.version }}.exe
+      - name: Upload
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: true
+          files: ./${{ env.RELEASE_NAME }}-${{ needs.setup.outputs.version }}.exe
