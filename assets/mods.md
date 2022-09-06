@@ -55,4 +55,4 @@ https://mediafiles.forgecdn.net/files/3881/713/Orcz_0.76_1.18.2.jar
 https://mediafiles.forgecdn.net/files/3968/747/Kobolds-2.0.8.jar
 https://mediafiles.forgecdn.net/files/3807/783/Beyond-Earth-1.18.2-6.2.jar
 https://mediafiles.forgecdn.net/files/3952/837/twilightforest-1.18.2-4.1.1397-universal.jar
-https://mediafiles.forgecdn.net/files/3544/891/soundphysics-forge-1.18-1.0.2.jar
+https://mediafiles.forgecdn.net/files/3775/919/soundphysics-forge-1.18.2-1.0.6.jar
