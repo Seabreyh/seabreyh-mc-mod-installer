@@ -40,7 +40,6 @@ https://github.com/Seabreyh/mc-forge-mana-mod/releases/download/v0.0.4a/mana-mod
 https://mediafiles.forgecdn.net/files/3669/114/feature_nbt_deadlock_be_gone_forge-2.0.0%2B1.18.2.jar
 https://mediafiles.forgecdn.net/files/3969/927/idas_forge-1.4.3%2B1.18.2.jar
 https://mediafiles.forgecdn.net/files/3804/257/SereneSeasons-1.18.2-7.0.0.15.jar
-https://mediafiles.forgecdn.net/files/3804/267/ToughAsNails-1.18.2-7.0.0.73.jar
 https://mediafiles.forgecdn.net/files/3777/696/FallingTree-1.18.2-3.5.1.jar
 https://mediafiles.forgecdn.net/files/3968/30/cloth-config-6.3.81-forge.jar
 https://mediafiles.forgecdn.net/files/3745/269/DustrialDecor-1.3.3-1.18.2.jar
