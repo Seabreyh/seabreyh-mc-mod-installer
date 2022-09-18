@@ -62,6 +62,11 @@ pub mod client {
                 cache_mods: false,
             }
         }
+
+        pub fn modloader_version(mut self, modloader_version: &str) -> Self {
+            self.modloader_version = Some(modloader_version.to_string());
+            self
+        }
     }
 }
 

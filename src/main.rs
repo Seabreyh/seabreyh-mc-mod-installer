@@ -42,7 +42,7 @@ pub async fn main() {
 
 async fn install_forge_client_and_mods(user_path: PathBuf, desired_forge_version: &str) {
     if let Err(e) = ClientBuilder::install(
-        InstallManifest::new(GAME_VERSION.into(), Loader::Forge),
+        InstallManifest::new(GAME_VERSION.into(), Loader::Forge).modloader_version("40.1.73"),
         None,
         |event| {
             println!("{}", event);
