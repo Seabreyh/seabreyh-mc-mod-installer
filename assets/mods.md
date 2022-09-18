@@ -33,10 +33,10 @@ https://mediafiles.forgecdn.net/files/3736/897/artifacts-1.18.2-4.0.7.jar
 https://mediafiles.forgecdn.net/files/3907/319/Xaeros_Minimap_22.13.0_Forge_1.18.2.jar
 https://mediafiles.forgecdn.net/files/3861/268/XaerosWorldMap_1.25.1_Forge_1.18.2.jar
 https://mediafiles.forgecdn.net/files/3924/971/open-parties-and-claims-forge-1.18.2-0.9.0.jar
-https://mediafiles.forgecdn.net/files/3930/338/DramaticDoors-Fabric-1.18.2-1.3.1.jar
+https://mediafiles.forgecdn.net/files/3944/230/DramaticDoors-Forge-1.18.2-2.1.3.jar
 https://mediafiles.forgecdn.net/files/3870/934/DungeonCrawl-1.18.2-2.3.10.jar
 https://mediafiles.forgecdn.net/files/3871/187/supplementaries-1.18.2-1.4.8.jar
-https://github.com/Seabreyh/mc-forge-mana-mod/releases/download/v0.0.4a/mana-mod-v0.0.4a.jar
+https://github.com/Seabreyh/mc-forge-mana-mod/releases/download/v0.0.5/mana-mod-v0.0.5.jar
 https://mediafiles.forgecdn.net/files/3669/114/feature_nbt_deadlock_be_gone_forge-2.0.0%2B1.18.2.jar
 https://mediafiles.forgecdn.net/files/3969/927/idas_forge-1.4.3%2B1.18.2.jar
 https://mediafiles.forgecdn.net/files/3804/257/SereneSeasons-1.18.2-7.0.0.15.jar
